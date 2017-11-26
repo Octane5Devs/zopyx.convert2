@@ -38,7 +38,7 @@ setup(name='zopyx.convert2',
       install_requires=[
           'setuptools',
           'BeautifulSoup',
-          'pisa',
+          'xhtml2pdf',
           'reportlab',
           'pypdf',
           'html5lib'],
