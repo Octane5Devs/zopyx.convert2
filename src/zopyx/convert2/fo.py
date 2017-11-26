@@ -7,10 +7,7 @@
 import os
 import sys
 
-if sys.version_info >= (2,5):
-    from xml.etree.ElementTree import ElementTree,parse, tostring
-else:
-    from elementtree.ElementTree import parse, tostring, SubElement
+from xml.etree.ElementTree import ElementTree,parse, tostring
 
 from config import java
 from tidy import tidyhtml
@@ -48,7 +45,7 @@ class HTML2FO(object):
         csstoxslfo = os.path.abspath(os.path.join(dirname, 'lib', 'csstoxslfo', 'css2xslfo.jar'))
         if not os.path.exists(csstoxslfo):
             raise IOError('%s does not exist' % csstoxslfo)
-        
+
         cmd = '"%s"' % java + \
               ' -Duser.language=en -Xms256m -Xmx256m -jar "%(csstoxslfo)s" "%(filename)s" -fo "%(fo_filename)s"' % vars()
         for k in kw:
@@ -78,13 +75,13 @@ class HTML2FO(object):
                     del node.attrib['id']
                 ids_seen.append(node_id)
 
-            for k, v in (('footnote', 'reset'), 
-                         ('unicode-bidi', 'embed'), 
-                         ('writing-mode', 'lr-tb'), 
-                         ('font-selection-strategy', 'character-by-character'), 
-                         ('line-height-shift-adjustment', 'disregard-shifts'), 
-                         ('page-break-after', 'avoid'), 
-                         ('page-break-before', 'avoid'), 
+            for k, v in (('footnote', 'reset'),
+                         ('unicode-bidi', 'embed'),
+                         ('writing-mode', 'lr-tb'),
+                         ('font-selection-strategy', 'character-by-character'),
+                         ('line-height-shift-adjustment', 'disregard-shifts'),
+                         ('page-break-after', 'avoid'),
+                         ('page-break-before', 'avoid'),
                          ('page-break-inside', 'avoid')):
 
                 value = get(k)
@@ -114,11 +111,11 @@ class HTML2FO(object):
                              'wrap-option' : 'no-wrap',
                              'linefeed-treatment' : 'preserve' }.items():
                     node.attrib[k] = v
-                
+
         fo_text = tostring(E.getroot())
         fo_text = fo_text.replace('<ns0:block ' , '<ns0:block margin-top="0" margin-bottom="0" ')  # avoid a linebreak through <li><p> (XFC)
-#        fo_text = fo_text.replace('<ns0:block/>', '') # causes a crash with XINC    
-        fo_text = fo_text.replace('<ns0:block margin-top="0" margin-bottom="0" />', '') 
+#        fo_text = fo_text.replace('<ns0:block/>', '') # causes a crash with XINC
+        fo_text = fo_text.replace('<ns0:block margin-top="0" margin-bottom="0" />', '')
 
         file(fo_filename, 'wb').write(fo_text)
         return fo_filename
