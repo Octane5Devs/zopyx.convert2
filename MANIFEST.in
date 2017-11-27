@@ -1,0 +1,2 @@
+include src/zopyx/convert2/lib/csstoxslfo/*.jar
+include src/zopyx/convert2/tests/data/*.html
