@@ -62,6 +62,10 @@ class HTML2FO(object):
         # remove some stuff from the generated FO file causing
         # some conversion trouble either with XINC or XFC
 
+        # Reposition fo_filename pointer
+        f = open(fo_filename)
+        f.seek(0)
+        f.close()
         E = parse(fo_filename)
 
         ids_seen = list()
